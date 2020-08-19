@@ -1,0 +1,9 @@
+struct Vec3Fixed {
+	x:[uint8:3];
+}
+
+root_type Vec3Fixed;
+
+file_identifier "vc3f";
+file_extension "vc3f";
+

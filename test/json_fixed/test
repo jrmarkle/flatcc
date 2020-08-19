@@ -1,0 +1,8 @@
+#!/bin/bash
+
+set -e
+
+../../bin/flatcc -a --json mystruct.fbs
+cc -g main.c ../../lib/libflatccrt.a -I../../include -o mystruct-test
+./mystruct-test
+echo PASSED
