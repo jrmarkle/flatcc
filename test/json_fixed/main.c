@@ -30,7 +30,6 @@ int main()
         const Vec3Fixed_t s = make();
         check(s);
     }
-
     {
         void *bufferB;
 
@@ -39,7 +38,7 @@ int main()
 
             flatcc_builder_t builder;
             flatcc_builder_init(&builder);
-            Vec3Fixed_create_as_root(&builder, s1.x);
+            Vec3Wrapper_create_as_root(&builder, &s1);
 
             size_t size = flatcc_builder_get_buffer_size(&builder);
             assert(size > 0);
@@ -55,8 +54,9 @@ int main()
         }
 
         {
-            const Vec3Fixed_t *s2 = Vec3Fixed_as_root(bufferB);
-            check(*s2);
+            const Vec3Wrapper_table_t s2 = Vec3Wrapper_as_root(bufferB);
+            const Vec3Fixed_struct_t s2i = Vec3Wrapper_inside_get(s2);
+            check(*s2i);
         }
 
         free(bufferB);
@@ -72,7 +72,7 @@ int main()
 
             flatcc_builder_t builderA;
             flatcc_builder_init(&builderA);
-            Vec3Fixed_create_as_root(&builderA, s1.x);
+            Vec3Wrapper_create_as_root(&builderA, &s1);
 
             size_t size = flatcc_builder_get_buffer_size(&builderA);
             assert(size > 0);
@@ -90,7 +90,7 @@ int main()
                 assert(0 == err);
             }
 
-            const int jsonSize = Vec3Fixed_print_json_as_root(&printer, buffer, size, NULL);
+            const int jsonSize = Vec3Wrapper_print_json_as_root(&printer, buffer, size, NULL);
             assert(jsonSize > 0);
 
             fflush(jsonFile);
@@ -121,8 +121,8 @@ int main()
             size_t size;
             void *buffer = flatcc_builder_finalize_buffer(&builderB, NULL);
 
-            const Vec3Fixed_t *parsed = Vec3Fixed_as_root(buffer);
-            check(*parsed);
+            const Vec3Wrapper_table_t parsed = Vec3Wrapper_as_root(buffer);
+            check(*Vec3Wrapper_inside_get(parsed));
         }
 
         fclose(jsonFile);

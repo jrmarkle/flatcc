@@ -2,7 +2,11 @@ struct Vec3Fixed {
 	x:[uint8:3];
 }
 
-root_type Vec3Fixed;
+table Vec3Wrapper {
+	inside:Vec3Fixed;
+}
+
+root_type Vec3Wrapper;
 
 file_identifier "vc3f";
 file_extension "vc3f";
